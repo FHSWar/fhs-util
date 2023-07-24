@@ -1,0 +1,18 @@
+env:
+  browser: true
+  es2021: true
+extends:
+  - airbnb-typescript/base
+  - standard-with-typescript
+  - prettier
+ignorePatterns:
+  - 'dist/**/*.js'
+  - 'dist/**/*.ts'
+parserOptions:
+  ecmaVersion: latest
+  project: ./tsconfig.json
+  sourceType: module
+plugins:
+  - prettier
+rules:
+  prettier/prettier: error
