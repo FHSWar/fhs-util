@@ -1,23 +1,32 @@
-export function buildTreeByPid(list: string | any[]): any {
-	const roots: any = []
-	const map: any = {}
-	const len = list.length
-	let node, i
-	// 这个 for 完就得到 map = {id: idItem,...}
-	for (i = 0; i < len; i++) {
-		map[list[i].id] = i // initialize the map
-		list[i].children = [] // initialize the children
-	}
+import type { Tree } from '@/types/Tree'
 
-	for (i = 0; i < len; i++) {
-		node = list[i]
-		if (node.parentId !== '0') {
-			// if you have dangling branches check that map[node.parentId] exists
-			list[map[node.parentId]].children.push(node)
-		} else {
-			// parentId 为零就在第一层
-			roots.push(node)
-		}
-	}
+export function buildTreeByPid(list: Tree): Tree {
+	const roots: Tree = []
+	const map: Record<string, number> = {}
+
+	// guard
+	if (!Array.isArray(list)) throw new Error('入参必须是数组')
+	list.every(({ children, id, parentId, text }) => {
+		if (typeof id !== 'string') throw new Error('元素必须有id')
+		if (typeof parentId !== 'string' && parentId !== null)
+			throw new Error('元素必须有parentId')
+		if (typeof text !== 'string') throw new Error('元素必须有text')
+		if (!Array.isArray(children)) throw new Error('入参必须是数组')
+		if (children.length !== 0) throw new Error('扁平数组children必须为空数组')
+
+		return true
+	})
+
+	// 这个遍历完就得到 map = {id: idItem,...}
+	list.forEach((_, index) => {
+		map[list[index].id] = index
+	})
+
+	list.forEach((node) => {
+		node.parentId === null
+			? roots.push(node) // parentId 为null就在第一层
+			: list[map[node.parentId]].children.push(node) // if you have dangling branches check that map[node.parentId] exists
+	})
+
 	return roots
 }

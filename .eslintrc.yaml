@@ -3,9 +3,9 @@ env:
   es2021: true
 extends:
   - airbnb-typescript/base
-  - plugin:import/recommended
   - standard-with-typescript
   - prettier
+  - plugin:import/recommended
 ignorePatterns:
   - 'dist/**/*.js'
   - 'dist/**/*.ts'
@@ -16,8 +16,8 @@ parserOptions:
   sourceType: module
 plugins:
   - prettier
-
 rules:
+  '@typescript-eslint/no-explicit-any': error
   import/no-unresolved: error
   prettier/prettier: error
 settings:
