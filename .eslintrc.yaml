@@ -1,11 +1,15 @@
+root: true
 env:
   browser: true
   es2021: true
 extends:
-  - airbnb-typescript/base
+  - eslint:recommended
   - standard-with-typescript
-  - prettier
   - plugin:import/recommended
+  - plugin:@typescript-eslint/recommended
+  - airbnb-base
+  - airbnb-typescript/base
+  - prettier
 ignorePatterns:
   - 'dist/**/*.js'
   - 'dist/**/*.ts'
@@ -16,9 +20,11 @@ parserOptions:
   sourceType: module
 plugins:
   - prettier
+  - '@typescript-eslint'
 rules:
   '@typescript-eslint/no-explicit-any': error
   import/no-unresolved: error
+  import/prefer-default-export: off
   prettier/prettier: error
 settings:
   import/parsers:

@@ -23,9 +23,10 @@ export function buildTreeByPid(list: Tree): Tree {
 	})
 
 	list.forEach((node) => {
-		node.parentId === null
-			? roots.push(node) // parentId 为null就在第一层
-			: list[map[node.parentId]].children.push(node) // if you have dangling branches check that map[node.parentId] exists
+		// parentId 为null就在第一层
+		if (node.parentId === null) roots.push(node)
+		// if you have dangling branches check that map[node.parentId] exists
+		else list[map[node.parentId]].children.push(node)
 	})
 
 	return roots
